@@ -1,0 +1,122 @@
+
+
+
+int Number_of_Parking_Slots = 3
+int Pay_Amount_per_Minute = 1
+
+int available_slots = Number_of_Parking_Slots
+int pay_per_minute = Pay_Amount_per_Minute
+
+firebase.set initial values
+
+while True:
+	
+	if available_slots != 0:
+		Check Entry car detection
+		if Entry car detect:
+			firebase.Update LCD1 = "Car Detected"
+			Find the Number plate
+			firebase.Update LCD1 = "entry_plate"
+			entry_time = current time
+			
+			if Number plate in Slot_Status:
+			
+				if firebase.get(/Slot_Status/"entry_plate"/Booked) == Yes:
+					firebase.Update (/Slot_Status/"entry_plate"/Entry) = "Yes"
+					firebase.Update LCD1 = "Go for Park"
+					firebase.Update Servo1 = "ON"
+					while (firebase.get(IR1) == 0):
+						delay(100)
+					firebase.Update Servo1 = "OFF"
+					available_slots = available_slots - 1
+					firebase.Update Available_Slots = available_slots
+					firebase.Update LCD1 = "(available_slots) Spaces Available"
+				else:
+					firebase.Update LCD1 = "Already Entry"
+			
+			else:
+				firebase.Set [/Slot_Status/"entry_plate"] {Entry_Time : "entry_time", 
+									   Booked : "No"}
+				firebase.Update LCD1 = "Go for Park"
+				firebase.Update Servo1 = "ON"
+				while (firebase.get(IR1) == 0):
+					delay(100)
+				firebase.Update Servo1 = "OFF"
+				available_slots = available_slots - 1
+				firebase.Update Available_Slots = available_slots
+				firebase.Update LCD1 = "(available_slots) Spaces Available"
+				
+				
+	Check Exit car detection
+	if Exit car detect:
+		firebase.Update LCD2 = "Car Detected"
+		Find the Number plate
+			while Number plate not in Slot_Status:
+				Find the Number plate again
+				
+		firebase.Update LCD2 = "exit_plate"
+		exit_time = current time
+			
+			if firebase.get(/Slot_Status/"exit_plate"/Booked) == Yes:
+				booked_exit_time = firebase.get(/Slot_Status/"exit_plate"/Exit_Time)
+				pay_time = exit_time - booked_exit_time
+				pay_amount = pay_time in minite * pay_per_minute
+				
+				if pay_amount <= 0:
+					firebase.Update (/Slot_Status/"exit_plate"/Entry) = "No"
+					firebase.Update LCD2 = "Thank You"
+					firebase.Update Servo2 = "ON"
+					while (firebase.get(IR2) == 0):
+						delay(100)
+					firebase.Update Servo2 = "OFF"
+				else:
+					firebase.Update LCD2 = "Pay for Exit"
+					Generate QR code for pay_amount and display it
+					payment = False
+					while payment == False:
+						if Payment done:
+							payment = True
+							
+					firebase.Update LCD2 = "Thank You"
+					firebase.Update Servo2 = "ON"
+					while (firebase.get(IR2) == 0):
+						delay(100)
+					firebase.Update Servo2 = "OFF"
+					available_slots = available_slots + 1
+					firebase.Update Available_Slots = available_slots
+					firebase.Update LCD1 = "(available_slots) Spaces Available"
+					firebase.delete (/Slot_Status/"exit_plate")
+				
+			else:
+				slot_entry_time = firebase.get(/Slot_Status/"exit_plate"/Entry_Time) 
+				pay_time = exit_time - slot_entry_time
+				pay_amount = pay_time in minite * pay_per_minute
+				
+				firebase.Update LCD2 = "Pay for Exit"
+				Generate QR code for pay_amount and display it
+				payment = False
+				while payment == False:
+					if Payment done:
+						payment = True
+						
+				firebase.Update LCD2 = "Thank You"
+				firebase.Update Servo2 = "ON"
+				while (firebase.get(IR2) == 0):
+					delay(100)
+				firebase.Update Servo2 = "OFF"
+				available_slots = available_slots + 1
+				firebase.Update Available_Slots = available_slots
+				firebase.Update LCD1 = "(available_slots) Spaces Available"
+				firebase.delete (/Slot_Status/"exit_plate")
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+							
