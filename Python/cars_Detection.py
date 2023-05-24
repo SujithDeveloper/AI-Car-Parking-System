@@ -72,15 +72,14 @@ def car_detect(video_url):
                     if 2 in class_ids:
                         detect = True
                         break
-
-                    if cv2.waitKey(1) & 0xFF == ord('q'):
+                    else:
+                        detect = False
                         break
         else:
             print("Failed to retrieve the video stream.")
             break
-        if detect == True:
+        if detect == True or detect == False:
             break
 
-    cv2.destroyAllWindows()
     return detect
     sys.exit()

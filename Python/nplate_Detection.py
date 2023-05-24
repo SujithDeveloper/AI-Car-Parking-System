@@ -43,8 +43,6 @@ def num_plate(video_url):
                     if len(nPlate.strip()) == 12:
                         break
 
-                    cv2.imshow("Result", img)
-
                     if cv2.waitKey(1) & 0xFF == ord('q'):
                         break
         else:
