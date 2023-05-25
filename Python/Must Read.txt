@@ -1,3 +1,3 @@
-Add the file from the google drive to this folder. The larger file cannot uploaded in github.
+Add the file from the google drive to this folder. The larger file cannot uploaded in github without Git LFS.
 
 https://drive.google.com/file/d/1nnP73Ahs8VaqJEnzEkPXVzUdhYyDvvG7/view?usp=sharing
